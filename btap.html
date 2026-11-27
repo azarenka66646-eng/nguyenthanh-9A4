@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyVault - Kho lưu trữ bài học</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --main: #713cff;
+    --dark: #211044;
+    --bg: #f5f2ff;
+    --white: #fff;
+    --text: #30264a;
+    --muted: #8b82a2;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+button, input, select, textarea {
+    font: inherit;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 250px;
+    background: linear-gradient(160deg,#32116b,#170b34);
+    color: white;
+    padding: 28px 18px;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: 800;
+    margin-bottom: 40px;
+}
+
+.logo span {
+    color: #bd9bff;
+}
+
+.menu-title {
+    font-size: 11px;
+    color: #aa91d3;
+    margin: 24px 12px 12px;
+}
+
+.menu a {
+    display: block;
+    padding: 13px;
+    color: #d8c9f5;
+    text-decoration: none;
+    border-radius: 12px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.menu a:hover,
+.menu a.active {
+    background: #7040c5;
+    color: white;
+}
+
+/* MAIN */
+
+main {
+    margin-left: 250px;
+    padding: 35px;
+    width: calc(100% - 250px);
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.topbar h1 {
+    font-size: 25px;
+}
+
+.topbar p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.profile {
+    background: white;
+    padding: 11px 16px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.hero {
+    background: linear-gradient(120deg,#743cff,#a47aff);
+    color: white;
+    padding: 30px;
+    border-radius: 23px;
+    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 13px;
+    opacity: .9;
+}
+
+.hero .decoration {
+    position: absolute;
+    font-size: 100px;
+    right: 35px;
+    top: 0;
+    opacity: .18;
+}
+
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 17px;
+    margin-bottom: 30px;
+}
+
+.stat {
+    background: white;
+    padding: 22px;
+    border-radius: 17px;
+    box-shadow: 0 5px 20px #39216a0a;
+}
+
+.stat .number {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--main);
+}
+
+.stat p {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* SUBJECTS */
+
+.section-title {
+    font-size: 18px;
+    margin-bottom: 18px;
+}
+
+.subjects {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 13px;
+    margin-bottom: 30px;
+}
+
+.subject {
+    background: white;
+    padding: 17px;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: .25s;
+}
+
+.subject:hover,
+.subject.selected {
+    border-color: var(--main);
+    transform: translateY(-4px);
+}
+
+.subject .emoji {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.subject h3 {
+    font-size: 12px;
+}
+
+.subject p {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+/* SEARCH */
+
+.toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.toolbar input,
+.toolbar select {
+    padding: 13px;
+    border: 1px solid #e7e0f4;
+    background: white;
+    border-radius: 12px;
+    outline: none;
+    min-width: 0;
+}
+
+.toolbar input {
+    flex: 1;
+}
+
+.btn {
+    background: var(--main);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn:hover {
+    background: #5323cb;
+    transform: translateY(-2px);
+}
+
+/* LESSONS */
+
+.lessons {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 16px;
+}
+
+.lesson {
+    background: white;
+    border-radius: 17px;
+    padding: 19px;
+    transition: .25s;
+    animation: appear .4s ease;
+}
+
+.lesson:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px #32116b12;
+}
+
+.lesson-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tag {
+    color: #7040c5;
+    background: #f0eaff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+}
+
+.favorite {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 19px;
+}
+
+.lesson h3 {
+    font-size: 15px;
+    margin: 17px 0 9px;
+}
+
+.lesson p {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.lesson-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    border-top: 1px solid #eee;
+    padding-top: 13px;
+}
+
+.uid {
+    font-size: 9px;
+    color: #aaa;
+}
+
+.actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 9px;
+    font-size: 14px;
+}
+
+.empty {
+    text-align: center;
+    padding: 45px;
+    color: var(--muted);
+    grid-column: 1/-1;
+}
+
+/* MODAL */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #140827aa;
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: appear .3s;
+}
+
+.modal-box h2 {
+    margin-bottom: 20px;
+}
+
+.modal-box input,
+.modal-box textarea,
+.modal-box select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 7px 0 15px;
+    outline: none;
+}
+
+.modal-box label {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.modal-box textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.cancel {
+    background: #eee;
+    color: #444;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media(max-width:1000px) {
+    .subjects {grid-template-columns:repeat(3,1fr)}
+    .lessons {grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:700px) {
+    .sidebar {
+        width: 65px;
+        padding: 20px 8px;
+    }
+
+    .logo {
+        font-size: 0;
+        text-align: center;
+    }
+
+    .logo:first-letter {
+        font-size: 24px;
+    }
+
+    .menu-title,
+    .menu a span {
+        display: none;
+    }
+
+    .menu a {
+        text-align: center;
+        font-size: 19px;
+        padding: 13px 4px;
+    }
+
+    main {
+        margin-left: 65px;
+        width: calc(100% - 65px);
+        padding: 18px 12px;
+    }
+
+    .topbar h1 {font-size:17px}
+    .profile {display:none}
+    .hero {padding:22px}
+    .hero h2 {font-size:19px}
+    .hero .decoration {font-size:60px;right:10px}
+    .stats {gap:7px}
+    .stat {padding:12px 8px}
+    .stat .number {font-size:21px}
+    .stat p {font-size:9px}
+    .subjects {grid-template-columns:repeat(2,1fr);gap:8px}
+    .subject {padding:12px}
+    .lessons {grid-template-columns:1fr}
+    .toolbar {flex-wrap:wrap}
+    .toolbar input {flex-basis:100%}
+    .toolbar select {flex:1}
+    .btn {padding:11px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<aside class="sidebar">
+    <div class="logo">📚 STUDY<span>VAULT</span></div>
+
+    <div class="menu-title">MENU CHÍNH</div>
+    <nav class="menu">
+        <a class="active" onclick="showAll()">🏠 <span>Trang chủ</span></a>
+        <a onclick="showFavorites()">⭐ <span>Yêu thích</span></a>
+        <a onclick="showAll()">📖 <span>Tất cả bài học</span></a>
+    </nav>
+
+    <div class="menu-title">QUẢN LÝ</div>
+    <nav class="menu">
+        <a onclick="openModal()">➕ <span>Thêm bài học</span></a>
+        <a onclick="backupData()">💾 <span>Sao lưu dữ liệu</span></a>
+    </nav>
+
+    <div class="menu-title">THÔNG TIN</div>
+    <nav class="menu">
+        <a onclick="alert('StudyVault v1.0')">⚙️ <span>Phiên bản</span></a>
+    </nav>
+</aside>
+
+<main>
+
+<header class="topbar">
+    <div>
+        <h1>Kho lưu trữ bài học</h1>
+        <p>Không gian học tập và quản lý kiến thức của bạn.</p>
+    </div>
+    <div class="profile">👤 Học sinh</div>
+</header>
+
+<section class="hero">
+    <div class="decoration">📚</div>
+    <h2>Chào mừng đến StudyVault!</h2>
+    <p>Mọi kiến thức đều được lưu trữ tại một nơi.</p>
+</section>
+
+<section class="stats">
+    <div class="stat">
+        <div class="number" id="total">0</div>
+        <p>Tổng bài học</p>
+    </div>
+    <div class="stat">
+        <div class="number" id="subjectsCount">0</div>
+        <p>Môn học</p>
+    </div>
+    <div class="stat">
+        <div class="number" id="favoritesCount">0</div>
+        <p>Yêu thích</p>
+    </div>
+</section>
+
+<h2 class="section-title">📚 Danh sách môn học</h2>
+
+<section class="subjects" id="subjects"></section>
+
+<h2 class="section-title" id="lessonHeading">📖 Tất cả bài học</h2>
+
+<div class="toolbar">
+    <input id="search" placeholder="🔍 Tìm kiếm bài học..." oninput="renderLessons()">
+
+    <select id="grade" onchange="renderLessons()">
+        <option value="">Tất cả khối</option>
+        <option>Lớp 6</option>
+        <option>Lớp 7</option>
+        <option>Lớp 8</option>
+        <option>Lớp 9</option>
+    </select>
+
+    <button class="btn" onclick="openModal()">+ Thêm bài</button>
+</div>
+
+<section class="lessons" id="lessons"></section>
+
+</main>
+</div>
+
+<!-- FORM THÊM BÀI -->
+
+<div class="modal" id="modal">
+<div class="modal-box">
+    <h2 id="formTitle">➕ Thêm bài học</h2>
+
+    <form id="lessonForm">
+        <label>Tên bài học</label>
+        <input id="title" required placeholder="Ví dụ: Phương trình bậc nhất">
+
+        <label>Môn học</label>
+        <select id="subject" required></select>
+
+        <label>Khối lớp</label>
+        <select id="class">
+            <option>Lớp 6</option>
+            <option>Lớp 7</option>
+            <option>Lớp 8</option>
+            <option>Lớp 9</option>
+        </select>
+
+        <label>Nội dung / Ghi chú</label>
+        <textarea id="content" placeholder="Nhập nội dung bài học..."></textarea>
+
+        <label>Link tài liệu (nếu có)</label>
+        <input id="link" type="url" placeholder="https://...">
+
+        <div class="modal-buttons">
+            <button class="btn" type="submit">Lưu bài học</button>
+            <button class="btn cancel" type="button" onclick="closeModal()">Hủy</button>
+        </div>
+    </form>
+</div>
+</div>
+
+<script>
+
+const subjectList = [
+    ["Toán","📐"],
+    ["Ngữ văn","📖"],
+    ["Tiếng Anh","🌍"],
+    ["Vật lý","⚡"],
+    ["Hóa học","🧪"],
+    ["Sinh học","🧬"],
+    ["Lịch sử","🏛️"],
+    ["Địa lý","🌏"],
+    ["Tin học","💻"],
+    ["Công nghệ","⚙️"],
+    ["GDCD","⚖️"],
+    ["Âm nhạc","🎵"],
+    ["Mỹ thuật","🎨"],
+    ["GD thể chất","⚽"],
+    ["Khoa học tự nhiên","🔬"],
+    ["Hoạt động trải nghiệm","🌱"]
+];
+
+let lessons = JSON.parse(localStorage.getItem("studyvault")) || [];
+let selectedSubject = "";
+let favoritesOnly = false;
+let editingId = null;
+
+const $ = id => document.getElementById(id);
+
+function save() {
+    localStorage.setItem("studyvault",JSON.stringify(lessons));
+    updateStats();
+}
+
+function createUID() {
+    return "SV-" + Date.now().toString(36).toUpperCase()
+    + "-" + Math.random().toString(36).substring(2,6).toUpperCase();
+}
+
+function renderSubjects() {
+    $("subjects").innerHTML = subjectList.map(([name,emoji]) => {
+        const count = lessons.filter(x=>x.subject===name).length;
+        return `
+        <div class="subject ${selectedSubject===name?'selected':''}"
+        onclick="filterSubject('${name}')">
+            <div class="emoji">${emoji}</div>
+            <h3>${name}</h3>
+            <p>${count} bài học</p>
+        </div>`;
+    }).join("");
+
+    $("subject").innerHTML = subjectList.map(([name]) =>
+        `<option value="${name}">${name}</option>`
+    ).join("");
+}
+
+function updateStats() {
+    $("total").textContent = lessons.length;
+    $("subjectsCount").textContent =
+        new Set(lessons.map(x=>x.subject)).size;
+    $("favoritesCount").textContent =
+        lessons.filter(x=>x.favorite).length;
+    renderSubjects();
+}
+
+function renderLessons() {
+    const keyword = $("search").value.toLowerCase();
+    const grade = $("grade").value;
+
+    const filtered = lessons.filter(x => {
+        return (!selectedSubject || x.subject===selectedSubject)
+        && (!favoritesOnly || x.favorite)
+        && (!grade || x.grade===grade)
+        && (x.title.toLowerCase().includes(keyword)
+        || x.content.toLowerCase().includes(keyword)
+        || x.subject.toLowerCase().includes(keyword));
+    });
+
+    $("lessons").innerHTML = filtered.length ? filtered.map(x=>`
+    <article class="lesson">
+        <div class="lesson-top">
+            <span class="tag">${x.subject} · ${x.grade}</span>
+            <button class="favorite"
+            onclick="toggleFavorite('${x.id}')">
+            ${x.favorite?'⭐':'☆'}
+            </button>
+        </div>
+
+        <h3>${escapeHTML(x.title)}</h3>
+        <p>${escapeHTML(x.content || "Chưa có ghi chú.")}</p>
+
+        ${x.link ? `<p><a href="${escapeHTML(x.link)}"
+        target="_blank" rel="noopener">📎 Mở tài liệu</a></p>` : ""}
+
+        <div class="lesson-footer">
+            <span class="uid">${x.id}</span>
+            <div class="actions">
+                <button onclick="editLesson('${x.id}')">✏️</button>
+                <button onclick="deleteLesson('${x.id}')">🗑️</button>
+            </div>
+        </div>
+    </article>
+    `).join("") : `<div class="empty">📭<br><br>Chưa có bài học nào!</div>`;
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;',
+        '"':'&quot;',"'":'&#39;'
+    })[c]);
+}
+
+function filterSubject(name) {
+    selectedSubject = selectedSubject===name ? "" : name;
+    favoritesOnly = false;
+    $("lessonHeading").textContent =
+        selectedSubject ? "📖 " + selectedSubject : "📖 Tất cả bài học";
+    renderSubjects();
+    renderLessons();
+}
+
+function showAll() {
+    selectedSubject = "";
+    favoritesOnly = false;
+    $("lessonHeading").textContent = "📖 Tất cả bài học";
+    renderSubjects();
+    renderLessons();
+}
+
+function showFavorites() {
+    selectedSubject = "";
+    favoritesOnly = true;
+    $("lessonHeading").textContent = "⭐ Bài học yêu thích";
+    renderSubjects();
+    renderLessons();
+}
+
+function openModal() {
+    editingId = null;
+    $("lessonForm").reset();
+    $("formTitle").textContent = "➕ Thêm bài học";
+    $("modal").classList.add("show");
+}
+
+function closeModal() {
+    $("modal").classList.remove("show");
+}
+
+$("lessonForm").addEventListener("submit",e=>{
+    e.preventDefault();
+
+    const data = {
+        id: editingId || createUID(),
+        title: $("title").value.trim(),
+        subject: $("subject").value,
+        grade: $("class").value,
+        content: $("content").value.trim(),
+        link: $("link").value.trim(),
+        favorite: editingId
+            ? lessons.find(x=>x.id===editingId).favorite
+            : false
+    };
+
+    if(editingId) {
+        lessons = lessons.map(x=>x.id===editingId?data:x);
+    } else {
+        lessons.unshift(data);
+    }
+
+    save();
+    renderLessons();
+    closeModal();
+});
+
+function editLesson(id) {
+    const x = lessons.find(x=>x.id===id);
+    if(!x) return;
+
+    editingId = id;
+    $("title").value = x.title;
+    $("subject").value = x.subject;
+    $("class").value = x.grade;
+    $("content").value = x.content;
+    $("link").value = x.link || "";
+    $("formTitle").textContent = "✏️ Chỉnh sửa bài học";
+    $("modal").classList.add("show");
+}
+
+function deleteLesson(id) {
+    if(!confirm("Bạn có chắc muốn xóa bài học này?")) return;
+    lessons = lessons.filter(x=>x.id!==id);
+    save();
+    renderLessons();
+}
+
+function toggleFavorite(id) {
+    lessons = lessons.map(x=>
+        x.id===id ? {...x,favorite:!x.favorite} : x
+    );
+    save();
+    renderLessons();
+}
+
+function backupData() {
+    const blob = new Blob(
+        [JSON.stringify(lessons,null,2)],
+        {type:"application/json"}
+    );
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "StudyVault_Backup.json";
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+renderSubjects();
+updateStats();
+renderLessons();
+
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StudyVault - Kho lưu trữ bài học</title>
+<title>Kho lưu trữ bài học by NT</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
@@ -470,7 +470,7 @@ main {
 <div class="layout">
 
 <aside class="sidebar">
-    <div class="logo">📚 STUDY<span>VAULT</span></div>
+    <div class="logo">Nguyễn Thành 9A4</div>
 
     <div class="menu-title">MENU CHÍNH</div>
     <nav class="menu">
@@ -487,7 +487,7 @@ main {
 
     <div class="menu-title">THÔNG TIN</div>
     <nav class="menu">
-        <a onclick="alert('StudyVault v1.0')">⚙️ <span>Phiên bản</span></a>
+        <a onclick="alert('Nguyễn Thành 9A4 v1.0')">⚙️ <span>Phiên bản</span></a>
     </nav>
 </aside>
 
@@ -503,7 +503,7 @@ main {
 
 <section class="hero">
     <div class="decoration">📚</div>
-    <h2>Chào mừng đến StudyVault!</h2>
+    <h2>Chào mừng đến Nguyễn Thành 9A4!</h2>
     <p>Mọi kiến thức đều được lưu trữ tại một nơi.</p>
 </section>
 
@@ -603,7 +603,7 @@ const subjectList = [
     ["Hoạt động trải nghiệm","🌱"]
 ];
 
-let lessons = JSON.parse(localStorage.getItem("studyvault")) || [];
+let lessons = JSON.parse(localStorage.getItem("Nguyễn Thành 9A4")) || [];
 let selectedSubject = "";
 let favoritesOnly = false;
 let editingId = null;
@@ -611,7 +611,7 @@ let editingId = null;
 const $ = id => document.getElementById(id);
 
 function save() {
-    localStorage.setItem("studyvault",JSON.stringify(lessons));
+    localStorage.setItem("Nguyễn Thành 9A4",JSON.stringify(lessons));
     updateStats();
 }
 
@@ -793,7 +793,7 @@ function backupData() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "StudyVault_Backup.json";
+    a.download = "Nguyễn Thành 9A4_Backup.json";
     a.click();
     URL.revokeObjectURL(url);
 }
